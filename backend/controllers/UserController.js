@@ -62,7 +62,6 @@ export const updateUser = async (req,res) =>{
         hasPassword = await argon2.hash(password)
     }
 
-
     try {
         const user = await prisma.user.update({
             where:{
@@ -94,13 +93,11 @@ export const deleteUser = async (req,res) =>{
     }
 }
 
-export const validator = async (method)=>{
-    switch(method){
-        case 'createUser': return [
-            body('username').exists().isString(),
-            body('password').exists().isString(),
-            body('email').exists().isEmail(),
-            body('role').exists().isString()
+export const validation = ()=> {
+ return [
+            body('username').exists().isString().withMessage('Username is not empty'),
+            body('password').exists().isString().withMessage('Username is not empty'),
+            body('email').exists().isEmail().withMessage('Username is not empty'),
+            body('role').exists().isString().withMessage('Username is not empty')
         ]
-    }
 }

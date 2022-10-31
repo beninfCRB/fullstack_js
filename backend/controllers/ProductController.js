@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { body } from "express-validator";
 const prisma = new PrismaClient()
 
 export const getProducts = async  (req,res) =>{
@@ -68,3 +69,10 @@ export const deleteProduct = async (req,res) =>{
         res.status(400).json({msg:error.message})
     }
 }
+
+export const validation = ()=> {
+    return [
+               body('name').exists().isString().withMessage('Username is not empty'),
+               body('price').exists().isString().withMessage('Username is not empty')
+           ]
+   }
