@@ -1,0 +1,39 @@
+GET http://localhost:5000/products
+
+######
+GET http://localhost:5000/products/aaab4e78-8870-441b-bdf4-b7b10946372f
+
+####
+POST http://localhost:5000/products
+Content-Type: application/json
+
+{
+    "name":"Book",
+    "price":123
+}
+
+######
+PATCH  http://localhost:5000/products/aaab4e78-8870-441b-bdf4-b7b10946372f
+Content-Type: application/json
+
+{
+    "name":"Book Updated",
+    "price":123
+}
+
+#######
+GET http://localhost:5000/users
+
+######
+GET http://localhost:5000/users/
+
+####
+POST http://localhost:5000/users
+Content-Type: application/json
+
+{
+    "username":"admin",
+    "password": "a",
+    "email": "ben",
+    "role": "admin"
+}
