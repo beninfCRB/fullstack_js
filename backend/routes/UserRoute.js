@@ -1,5 +1,4 @@
 import express from "express"
-import {body,validationResult} from "express-validator"
 
 import {
     getUsers,
@@ -15,8 +14,8 @@ const router = express.Router()
 
 router.get('/users', getUsers)
 router.get('/users/:id', getUserById)
-router.post('/users',validation(),validate,createUser)
-router.patch('/users/:id',validation(),validate,updateUser)
+router.post('/users', validation(), validate, createUser)
+router.patch('/users/:id', validation(), validate, updateUser)
 router.delete('/users/:id', deleteUser)
 
 export default router

@@ -13,8 +13,8 @@ const router = express.Router()
 
 router.get('/products', getProducts)
 router.get('/products/:id', getProductById)
-router.post('/products',validation(),validate,createProduct)
-router.patch('/products/:id', updateProduct)
+router.post('/products', validation(), validate, createProduct)
+router.patch('/products/:id', validation(), validate, updateProduct)
 router.delete('/products/:id', deleteProduct)
 
 export default router

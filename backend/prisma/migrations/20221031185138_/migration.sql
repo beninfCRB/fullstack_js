@@ -1,10 +1,11 @@
 -- CreateTable
-CREATE TABLE `users` (
+CREATE TABLE `user` (
     `id` VARCHAR(191) NOT NULL,
     `username` VARCHAR(191) NOT NULL,
     `password` VARCHAR(191) NOT NULL,
     `email` VARCHAR(191) NOT NULL,
     `role` VARCHAR(191) NOT NULL,
+    `refresh_token` TEXT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 
