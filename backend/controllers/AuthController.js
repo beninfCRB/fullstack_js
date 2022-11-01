@@ -99,7 +99,7 @@ export const logout = async (req, res) => {
     })
 
     res.clearCookie('refreshToken')
-    return res.sendStatus(200)
+    return res.status(200).json({ msg: "Berhasil Logout" })
 }
 
 export const validation = () => {
