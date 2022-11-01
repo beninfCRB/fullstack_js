@@ -6,7 +6,7 @@ import bodyParser from "body-parser"
 import ProductRoute from "../backend/routes/ProductRoute.js"
 import UserRoute from "../backend/routes/UserRoute.js"
 import AuthRoute from "../backend/routes/AuthRoute.js"
-import jwt from "jsonwebtoken"
+import cookieParser from "cookie-parser"
 // import { PrismaSessionStore } from '@quixo3/prisma-session-store';
 // import { PrismaClient } from "@prisma/client";
 
@@ -49,6 +49,7 @@ app.use(cors({
     origin: process.env.APP_PORT_FRONTEND
 }))
 
+app.use(cookieParser())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.json())

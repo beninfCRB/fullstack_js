@@ -9,13 +9,14 @@ import {
     validation
 } from "../controllers/UserController.js"
 import { validate } from "../middleware/validator.js"
+import { verifyToken } from "../middleware/VerifyToken.js"
 
 const router = express.Router()
 
-router.get('/users', getUsers)
-router.get('/users/:id', getUserById)
-router.post('/users', validation(), validate, createUser)
-router.patch('/users/:id', validation(), validate, updateUser)
-router.delete('/users/:id', deleteUser)
+router.get('/users', verifyToken, getUsers)
+router.get('/users/:id', verifyToken, getUserById)
+router.post('/users', validation(), verifyToken, validate, createUser)
+router.patch('/users/:id', validation(), verifyToken, validate, updateUser)
+router.delete('/users/:id', verifyToken, deleteUser)
 
 export default router

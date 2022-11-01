@@ -8,13 +8,14 @@ import {
     validation
 } from "../controllers/ProductController.js"
 import { validate } from "../middleware/validator.js"
+import { verifyToken } from "../middleware/VerifyToken.js"
 
 const router = express.Router()
 
-router.get('/products', getProducts)
-router.get('/products/:id', getProductById)
-router.post('/products', validation(), validate, createProduct)
-router.patch('/products/:id', validation(), validate, updateProduct)
-router.delete('/products/:id', deleteProduct)
+router.get('/products', verifyToken, getProducts)
+router.get('/products/:id', verifyToken, getProductById)
+router.post('/products', validation(), verifyToken, validate, createProduct)
+router.patch('/products/:id', validation(), verifyToken, validate, updateProduct)
+router.delete('/products/:id', verifyToken, deleteProduct)
 
 export default router

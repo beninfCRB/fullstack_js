@@ -5,6 +5,7 @@ GET http://localhost:5000/products/aaab4e78-8870-441b-bdf4-b7b10946372f
 
 ####
 POST http://localhost:5000/products
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjliYjBiNjUwLWNiMTMtNGRkYi1iZmEwLWI1YzhkOTViMWYyYyIsInVzZXJuYW1lIjoiYWRtaW4iLCJlbWFpbCI6ImJlbmlAZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNjY3MzE2MjE3LCJleHAiOjE2NjczMTY1MTd9.PoC8rZWD5MYdG-YhhwSU8wHvEjQMvoaBgRKEnB0CfaE
 Content-Type: application/json
 
 {
@@ -23,6 +24,7 @@ Content-Type: application/json
 
 #######
 GET http://localhost:5000/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjliYjBiNjUwLWNiMTMtNGRkYi1iZmEwLWI1YzhkOTViMWYyYyIsInVzZXJuYW1lIjoiYWRtaW4iLCJlbWFpbCI6ImJlbmlAZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNjY3MzE2MjE3LCJleHAiOjE2NjczMTY1MTd9.PoC8rZWD5MYdG-YhhwSU8wHvEjQMvoaBgRKEnB0CfaE
 
 ######
 GET http://localhost:5000/users/
@@ -46,6 +48,9 @@ Content-Type: application/json
     "username":"admin",
     "password": "a"
 }
+
+######
+GET http://localhost:5000/token
 
 ######
 GET http://localhost:5000/me

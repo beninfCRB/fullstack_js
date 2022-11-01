@@ -1,10 +1,8 @@
 import { PrismaClient } from "@prisma/client";
-import dotenv from "dotenv"
 import bcrypt from "bcrypt";
 import { body } from "express-validator";
 import jwt from "jsonwebtoken"
 
-dotenv.config()
 const prisma = new PrismaClient()
 
 export const login = async (req, res) => {
@@ -23,21 +21,21 @@ export const login = async (req, res) => {
         const email = user.email
         const role = user.role
         const accessToken = jwt.sign({ id, username, email, role }, process.env.ACCESS_TOKEN_SECRET, {
-            expiresIn: '20s'
+            expiresIn: '5m'
         })
 
         const refreshToken = jwt.sign({ id, username, email, role }, process.env.REFRESH_TOKEN_SECRET, {
             expiresIn: '1d'
         })
 
-        console.log(refreshToken)
+        const token = JSON.stringify(String(refreshToken))
 
         await prisma.user.update({
             where: {
                 id
             },
             data: {
-                refresh_token: accessToken
+                refresh_token: token
             }
         })
 
@@ -55,13 +53,12 @@ export const login = async (req, res) => {
 
 export const me = async (req, res) => {
     try {
-        if (!req.session.userId) {
-            return res.status(401).json({ msg: "Mohon Login Terlebih Dahulu" })
-        }
+        const refreshToken = req.cookies.refreshToken
+        if (!refreshToken) return res.sendStatus(204)
 
         const user = await prisma.user.findFirst({
             where: {
-                id: req.session.userId
+                refresh_token: `"${refreshToken}"`
             },
             select: {
                 id: true,
@@ -78,11 +75,31 @@ export const me = async (req, res) => {
     }
 }
 
-export const logout = (req, res) => {
-    req.session.destroy((err) => {
-        if (err) return res.status(400).json({ msg: "Tidak Dapat Logout" })
-        res.status(200).json({ msg: "Anda telah Logout" })
+export const logout = async (req, res) => {
+    const refreshToken = req.cookies.refreshToken
+    if (!refreshToken) return res.sendStatus(204)
+
+    const user = await prisma.user.findFirst({
+        where: {
+            refresh_token: `"${refreshToken}"`
+        }
     })
+
+    if (!user) return res.sendStatus(204)
+
+    const id = user.id
+
+    await prisma.user.update({
+        where: {
+            id: id
+        },
+        data: {
+            refresh_token: null
+        }
+    })
+
+    res.clearCookie('refreshToken')
+    return res.sendStatus(200)
 }
 
 export const validation = () => {
