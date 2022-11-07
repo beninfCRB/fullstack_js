@@ -1,6 +1,6 @@
 GET http://localhost:5000/products
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfVXNlciI6e30sImlhdCI6MTY2NzgzMTc5MSwiZXhwIjoxNjY3ODMyMDkxfQ.osw8hddxI_3vMwPtmcSAlR-Whz8UOl6YOIEduxOg88c
 
-######
 GET http://localhost:5000/products/aaab4e78-8870-441b-bdf4-b7b10946372f
 
 ####
@@ -24,7 +24,7 @@ Content-Type: application/json
 
 #######
 GET http://localhost:5000/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjliYjBiNjUwLWNiMTMtNGRkYi1iZmEwLWI1YzhkOTViMWYyYyIsInVzZXJuYW1lIjoiYWRtaW4iLCJlbWFpbCI6ImJlbmlAZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNjY3MzIwMTE4LCJleHAiOjE2NjczMjA0MTh9.9JlexXwH2Iljp8ImS0OlF70Z_XdYsR_0Yiv1yg-XykQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfVXNlciI6eyJpZCI6ImIxMTljM2ZhLTkyMDUtNDg5OC05MjExLTExNzE4ZTcwNmQ4YiIsInVzZXJuYW1lIjoidXNlciIsInJvbGUiOiJ1c2VyIiwiZW1haWwiOiJiZW5pQGdtYWlsLmNvbSJ9LCJpYXQiOjE2Njc4MjY4ODksImV4cCI6MTY2NzgyNzE4OX0.0adrDXa_OjCoOpT590kCRjVmL_72qKnWixNR21pqUF0
 
 ######
 GET http://localhost:5000/users/
@@ -37,7 +37,7 @@ Content-Type: application/json
     "username":"admin",
     "password": "a",
     "email": "beni@gmail.com",
-    "role": "admin"
+    "role": "user"
 }
 
 #####
