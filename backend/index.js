@@ -3,9 +3,9 @@ import cors from "cors"
 // import session from "express-session"
 import dotenv from "dotenv"
 import bodyParser from "body-parser"
-import ProductRoute from "../backend/routes/ProductRoute.js"
-import UserRoute from "../backend/routes/UserRoute.js"
-import AuthRoute from "../backend/routes/AuthRoute.js"
+import ProductRoute from "./routes/product.route.js"
+import UserRoute from "../backend/routes/user.route.js"
+import AuthRoute from "./routes/auth.route.js"
 import cookieParser from "cookie-parser"
 // import { PrismaSessionStore } from '@quixo3/prisma-session-store';
 // import { PrismaClient } from "@prisma/client";
@@ -51,7 +51,7 @@ app.use(cors({
 
 app.use(cookieParser())
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.json())
 app.use(AuthRoute)
 app.use(ProductRoute)

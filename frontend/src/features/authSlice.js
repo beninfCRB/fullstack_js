@@ -1,52 +1,99 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import * as api from '../app/api.js'
+import jwt_decode from "jwt-decode";
 import axios from "axios";
-import jwt_decoded from "jwt-decode"
+import { useDispatch, useSelector } from "react-redux";
 
 const initialState = {
     user: null,
     isError: false,
     isSuccess: false,
     isLoading: false,
-    message: ""
+    token: null,
+    exp: null
 }
 
-export const refreshToken = createAsyncThunk('user/refreshToken', async (user, thunkAPI) => {
+export const login = createAsyncThunk('/login', async ({ formValue, navigate, toast }) => {
     try {
-        const response = await axios.get('http://localhost:5000/token')
-        const decoded = jwt_decoded(response.data.accessToken)
-        console.log(decoded)
-        return decoded
+        const response = await api.login(formValue)
+        toast.success('Login Berhasil')
+        navigate('/dashboard')
+        return response.data.accessToken
     } catch (error) {
-        if (error.response) {
-            console.log(error.message)
-            const message = error.response.data.msg
-            return thunkAPI.rejectWithValue(message)
-        }
+        toast.error(error.message)
     }
 })
 
+export const logout = createAsyncThunk('/logout', async ({ navigate, toast }) => {
+    try {
+        const response = await api.logout()
+        toast.success('Logout Berhasil')
+        navigate('/')
+        return response.data
+    } catch (error) {
+        toast.error(error.message)
+    }
+})
+
+
+axios.interceptors.request.use(async (config) => {
+    const currentDate = new Date();
+    const { exp } = useSelector((state) => state.auth)
+    if (exp * 1000 < currentDate.getTime()) {
+        const response = await api.token()
+        config.headers.Authorization = `Bearer ${response.data.accessToken}`
+        const decoded = jwt_decode(response.data.accessToken)
+        return decoded
+    }
+    return config;
+}, (error) => {
+    return Promise.reject(error)
+})
+
+export const refreshToken = async ({ navigate }) => {
+    try {
+        const response = await api.token()
+        return response.data.accessToken
+    } catch (error) {
+        if (error.response) {
+            navigate('/')
+        }
+    }
+}
+
+
 export const authSlice = createSlice({
-    name: "auth",
+    name: 'auth',
     initialState,
     reducers: {
         reset: (state) => initialState
     },
-    extraReducers: (builder) => {
-        builder.addCase(refreshToken.pending, (state) => {
-            state.isLoading = true
-        })
-        builder.addCase(refreshToken.fulfilled, (state, action) => {
-            state.isLoading = false
-            state.isSuccess = true
-            state.user = action.payload
-        })
-        builder.addCase(refreshToken.rejected, (state, action) => {
-            state.loading = false
+    extraReducers: {
+        [login.pending]: (state, action) => {
+            state.isLoading = true;
+        },
+        [login.fulfilled]: (state, action) => {
+            state.isSuccess = true;
+            state.isLoading = false;
+            state.token = action.payload
+            state.user = jwt_decode(action.payload)
+            state.exp = jwt_decode(action.payload).exp
+        },
+        [login.rejected]: (state, action) => {
+            state.isLoading = false;
+            state.isSuccess = false;
+            state.isError = action.payload.message;
+        },
+        [logout.fulfilled]: (state, action) => initialState,
+        [refreshToken.fulfilled]: (state, action) => {
+            // state.token = action.payload
+            // state.exp = jwt_decode(action.payload).exp
+        },
+        [refreshToken.rejected]: (state, action) => {
             state.isError = true
-            state.message = action.payload
-        })
+        }
     }
 });
 
-export const { reset } = authSlice.actions
-export default authSlice.reducer
+export const { reset } = authSlice.actions;
+export default authSlice.reducer;

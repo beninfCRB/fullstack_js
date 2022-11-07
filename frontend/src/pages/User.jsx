@@ -1,6 +1,6 @@
 import React from 'react'
 import Userlist from '../components/Userlist'
-import Layout from './Layout'
+import Layout from '../components/Layout'
 
 const User = () => {
     return (

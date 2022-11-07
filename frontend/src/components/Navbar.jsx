@@ -1,8 +1,19 @@
 import React from 'react'
-import { NavLink } from "react-router-dom";
-import logo from "../resource/img/logo.png"
+import { NavLink, useNavigate } from "react-router-dom";
+import logo from "../public/img/logo.png"
+import { toast } from 'react-toastify'
+import { useDispatch } from 'react-redux';
+import { logout } from '../features/authSlice.js';
 
-const navbar = () => {
+
+const Navbar = props => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const clear = () => {
+        dispatch(logout({ navigate, toast }))
+    }
+
     return (
         <div>
             <nav className="navbar is-fixed-top has-shadow"
@@ -38,7 +49,7 @@ const navbar = () => {
                     <div className="navbar-end">
                         <div className="navbar-item">
                             <div className="buttons">
-                                <button className="button is-light">
+                                <button onClick={clear} className="button is-light">
                                     Log out
                                 </button>
                             </div>
@@ -50,4 +61,4 @@ const navbar = () => {
     )
 }
 
-export default navbar
+export default Navbar

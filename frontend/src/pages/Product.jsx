@@ -1,6 +1,6 @@
 import React from 'react'
 import ProductList from '../components/ProductList'
-import Layout from './Layout'
+import Layout from '../components/Layout'
 
 const Product = () => {
     return (

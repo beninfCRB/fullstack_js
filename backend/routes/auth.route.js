@@ -1,13 +1,12 @@
 import express from "express"
-
 import {
     me,
     login,
     logout,
     validation
-} from "../controllers/AuthController.js"
-import { refreshToken } from "../controllers/ResreshToken.js"
-import { validate } from "../middleware/validator.js"
+} from "../controllers/auth.controller.js"
+import { refreshToken } from "../controllers/auth.controller.js"
+import { validate } from "../middleware/validator.middleware.js"
 
 const router = express.Router()
 
