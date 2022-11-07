@@ -42,15 +42,14 @@ axios.interceptors.request.use(async (config) => {
     if (exp * 1000 < currentDate.getTime()) {
         const response = await api.token()
         config.headers.Authorization = `Bearer ${response.data.accessToken}`
-        const decoded = jwt_decode(response.data.accessToken)
-        return decoded
+        return response.data.accessToken
     }
     return config;
 }, (error) => {
     return Promise.reject(error)
 })
 
-export const refreshToken = async ({ navigate }) => {
+export const refreshToken = createAsyncThunk('/logout', async ({ navigate }) => {
     try {
         const response = await api.token()
         return response.data.accessToken
@@ -59,7 +58,7 @@ export const refreshToken = async ({ navigate }) => {
             navigate('/')
         }
     }
-}
+})
 
 
 export const authSlice = createSlice({
@@ -84,10 +83,14 @@ export const authSlice = createSlice({
             state.isSuccess = false;
             state.isError = action.payload.message;
         },
+        [logout.pending]: (state, action) => {
+            state.isLoading = true
+        },
         [logout.fulfilled]: (state, action) => initialState,
         [refreshToken.fulfilled]: (state, action) => {
-            // state.token = action.payload
-            // state.exp = jwt_decode(action.payload).exp
+            state.token = action.payload
+            state.user = jwt_decode(action.payload)
+            state.exp = jwt_decode(action.payload).exp
         },
         [refreshToken.rejected]: (state, action) => {
             state.isError = true

@@ -11,9 +11,9 @@ const Dashboard = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    // useState(() => {
-    //     dispatch(refreshToken({ navigate }))
-    // }, [])
+    useState(() => {
+        dispatch(refreshToken({ navigate }))
+    }, [])
 
     return (
         <MainLayout>

@@ -25,11 +25,11 @@ export const login = async (req, res) => {
         }
 
         const accessToken = jwt.sign({ _User }, process.env.ACCESS_TOKEN_SECRET, {
-            expiresIn: '5m'
+            expiresIn: '1h'
         })
 
         const refreshToken = jwt.sign({ _User }, process.env.REFRESH_TOKEN_SECRET, {
-            expiresIn: '5m'
+            expiresIn: '1h'
         })
 
         await prisma.user.update({
@@ -54,9 +54,8 @@ export const login = async (req, res) => {
 }
 
 export const refreshToken = async (req, res) => {
+    const refreshToken = req.cookies.refresh_token
     try {
-        const refreshToken = req.cookies.refresh_token
-
         if (!refreshToken) return res.sendStatus(401)
 
         const user = await prisma.user.findFirst({
@@ -78,11 +77,10 @@ export const refreshToken = async (req, res) => {
             }
 
             const accessToken = jwt.sign({ _User }, process.env.ACCESS_TOKEN_SECRET, {
-                expiresIn: '5m'
+                expiresIn: '1h'
             })
-            res.json({ accessToken })
+            res.status(200).json({ accessToken })
         })
-
     } catch (error) {
         console.log(error)
     }
