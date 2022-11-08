@@ -19,43 +19,9 @@ const { Header, Sider, Content, Footer } = Layout;
 export const MainLayout = ({ children }) => {
     const [collapsed, setCollapsed] = useState(false);
     const { user } = useSelector((state) => state.auth)
-    // const [token, setToken] = useState('')
-    // const [expire, setExpire] = useState('')
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
-    // useState(() => {
-    //     refreshToken()
-    // }, [])
-
-    // const refreshToken = async () => {
-    //     try {
-    //         const response = await axios.get('http://localhost:5000/token')
-    //         setToken(response.data.accessToken)
-    //         const decoded = jwt_decode(response.data.accessToken)
-    //         setExpire(decoded.exp)
-    //     } catch (error) {
-    //         if (error.response) {
-    //             navigate('/')
-    //         }
-    //     }
-    // }
-
-    // axios.interceptors.request.use(async (config) => {
-    //     const currentDate = new Date();
-    //     if (expire * 1000 < currentDate.getTime()) {
-    //         const response = await api.token()
-    //         config.headers.Authorization = `Bearer ${response.data.accessToken}`
-    //         setToken(response.data.accessToken)
-    //         const decoded = jwt_decode(response.data.accessToken)
-    //         setExpire(decoded.exp)
-    //     }
-    //     return config;
-    // }, (error) => {
-    //     return Promise.reject(error)
-    // })
-
 
     const clear = () => {
         dispatch(logout({ navigate, toast }));
@@ -111,7 +77,7 @@ export const MainLayout = ({ children }) => {
                         })}
 
                         <Button onClick={clear} type="primary" shape="round" icon={<LogoutOutlined />} size={'small'} />
-                        {user._User.username}
+                        {user.username}
                     </Header>
                     <Content
                         className="site-layout-background"

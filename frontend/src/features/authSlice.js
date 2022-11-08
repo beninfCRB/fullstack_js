@@ -75,7 +75,7 @@ export const authSlice = createSlice({
             state.isSuccess = true;
             state.isLoading = false;
             state.token = action.payload
-            state.user = jwt_decode(action.payload)
+            state.user = jwt_decode(action.payload)._User
             state.exp = jwt_decode(action.payload).exp
         },
         [login.rejected]: (state, action) => {
@@ -89,7 +89,7 @@ export const authSlice = createSlice({
         [logout.fulfilled]: (state, action) => initialState,
         [refreshToken.fulfilled]: (state, action) => {
             state.token = action.payload
-            state.user = jwt_decode(action.payload)
+            state.user = jwt_decode(action.payload)._User
             state.exp = jwt_decode(action.payload).exp
         },
         [refreshToken.rejected]: (state, action) => {
