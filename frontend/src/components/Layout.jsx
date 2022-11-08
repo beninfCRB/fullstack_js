@@ -77,7 +77,7 @@ export const MainLayout = ({ children }) => {
                         })}
 
                         <Button onClick={clear} type="primary" shape="round" icon={<LogoutOutlined />} size={'small'} />
-                        {user.username}
+                        {user && user.username}
                     </Header>
                     <Content
                         className="site-layout-background"

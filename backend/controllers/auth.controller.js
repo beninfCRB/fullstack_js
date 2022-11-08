@@ -49,7 +49,7 @@ export const login = async (req, res) => {
 
         res.status(200).json({ accessToken })
     } catch (error) {
-        res.sendStatus(404).json({ msg: error })
+        res.status(404).json({ msg: error })
     }
 }
 
@@ -106,7 +106,7 @@ export const me = async (req, res) => {
 
         res.status(200).json(user)
     } catch (error) {
-        res.sendStatus(404).json({ msg: "User Tidak Ditemukan" })
+        res.status(404).json({ msg: "User Tidak Ditemukan" })
     }
 }
 
@@ -134,9 +134,9 @@ export const logout = async (req, res) => {
         })
 
         res.clearCookie('refresh_token')
-        return res.status(200).json({ msg: "Berhasil Logout" })
+        res.status(200).json({ msg: "Berhasil Logout" })
     } catch (error) {
-
+        console.log(error)
     }
 }
 

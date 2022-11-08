@@ -3,6 +3,8 @@ import * as api from '../app/api.js'
 import jwt_decode from "jwt-decode";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { useNavigate as navigate } from "react-router-dom";
+
 
 const initialState = {
     user: null,
@@ -49,12 +51,13 @@ axios.interceptors.request.use(async (config) => {
     return Promise.reject(error)
 })
 
-export const refreshToken = createAsyncThunk('/token', async ({ navigate }) => {
+export const refreshToken = createAsyncThunk('/token', async () => {
     try {
         const response = await api.token()
         return response.data.accessToken
     } catch (error) {
         if (error.response) {
+            await api.logout()
             navigate('/')
         }
     }
@@ -72,21 +75,25 @@ export const authSlice = createSlice({
             state.isLoading = true;
         },
         [login.fulfilled]: (state, action) => {
-            state.isSuccess = true;
-            state.isLoading = false;
+            state.isSuccess = true
+            state.isLoading = false
+            state.isError = false
             state.token = action.payload
             state.user = jwt_decode(action.payload)._User
             state.exp = jwt_decode(action.payload).exp
         },
         [login.rejected]: (state, action) => {
-            state.isLoading = false;
-            state.isSuccess = false;
+            state.isLoading = false
+            state.isSuccess = false
             state.isError = action.payload.message;
         },
         [logout.pending]: (state, action) => {
             state.isLoading = true
         },
         [logout.fulfilled]: (state, action) => initialState,
+        [refreshToken.pending]: (state, action) => {
+            state.isLoading = true
+        },
         [refreshToken.fulfilled]: (state, action) => {
             state.token = action.payload
             state.user = jwt_decode(action.payload)._User
