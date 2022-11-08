@@ -49,7 +49,7 @@ axios.interceptors.request.use(async (config) => {
     return Promise.reject(error)
 })
 
-export const refreshToken = createAsyncThunk('/logout', async ({ navigate }) => {
+export const refreshToken = createAsyncThunk('/token', async ({ navigate }) => {
     try {
         const response = await api.token()
         return response.data.accessToken
