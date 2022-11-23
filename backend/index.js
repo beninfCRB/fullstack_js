@@ -45,8 +45,8 @@ const port = process.env.APP_PORT
 // }))
 
 app.use(cors({
-    credentials: true,
-    origin: process.env.APP_PORT_FRONTEND
+    origin: process.env.APP_PORT_FRONTEND,
+    credentials: true
 }))
 
 app.use(cookieParser())

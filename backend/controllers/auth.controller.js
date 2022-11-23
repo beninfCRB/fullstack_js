@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 import { body } from "express-validator";
-import jwt from "jsonwebtoken"
+import authJWT from "jsonwebtoken"
 
 const prisma = new PrismaClient()
 
@@ -24,11 +24,11 @@ export const login = async (req, res) => {
             email: user.email
         }
 
-        const accessToken = jwt.sign({ _User }, process.env.ACCESS_TOKEN_SECRET, {
+        const accessToken = authJWT.sign(_User, process.env.ACCESS_TOKEN_SECRET, {
             expiresIn: '1h'
         })
 
-        const refreshToken = jwt.sign({ _User }, process.env.REFRESH_TOKEN_SECRET, {
+        const refreshToken = authJWT.sign(_User, process.env.REFRESH_TOKEN_SECRET, {
             expiresIn: '1h'
         })
 
@@ -47,26 +47,26 @@ export const login = async (req, res) => {
             secure: false
         })
 
-        res.status(200).json({ accessToken })
+        res.status(200).json({ Authorization: accessToken })
     } catch (error) {
         res.status(404).json({ msg: error })
     }
 }
 
 export const refreshToken = async (req, res) => {
-    const refreshToken = req.cookies.refresh_token
+    const token = req.cookies.refresh_token
     try {
-        if (!refreshToken) return res.sendStatus(401)
+        if (!token) return res.sendStatus(401)
 
         const user = await prisma.user.findFirst({
             where: {
-                refresh_token: refreshToken
+                refresh_token: token
             }
         })
 
         if (!user) return res.sendStatus(403)
 
-        jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+        authJWT.verify(token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
             if (err) return res.sendStatus(403)
 
             const _User = {
@@ -76,10 +76,10 @@ export const refreshToken = async (req, res) => {
                 email: user.email
             }
 
-            const accessToken = jwt.sign({ _User }, process.env.ACCESS_TOKEN_SECRET, {
-                expiresIn: '1h'
+            const accessToken = authJWT.sign(_User, process.env.ACCESS_TOKEN_SECRET, {
+                expiresIn: '24h'
             })
-            res.status(200).json({ accessToken })
+            res.status(200).json({ Authorization: accessToken })
         })
     } catch (error) {
         console.log(error)
@@ -87,13 +87,13 @@ export const refreshToken = async (req, res) => {
 }
 
 export const me = async (req, res) => {
-    const refreshToken = req.cookies.refresh_token
+    const token = req.cookies.refresh_token
     try {
-        if (!refreshToken) return res.sendStatus(204)
+        if (!token) return res.sendStatus(204)
 
         const user = await prisma.user.findFirst({
             where: {
-                refresh_token: refreshToken
+                refresh_token: token
             },
             select: {
                 id: true,
@@ -111,12 +111,12 @@ export const me = async (req, res) => {
 }
 
 export const logout = async (req, res) => {
-    const refreshToken = req.cookies.refresh_token
+    const token = req.cookies.refresh_token
     try {
-        if (!refreshToken) return res.sendStatus(204)
+        if (!token) return res.sendStatus(204)
         const user = await prisma.user.findFirst({
             where: {
-                refresh_token: refreshToken
+                refresh_token: token
             }
         })
 

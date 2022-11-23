@@ -1,6 +1,6 @@
 import React from 'react'
-import FormEditUser from '../components/FormEditUser'
-import Layout from '../components/Layout'
+import Layout from "../../../components/admin/layout/Layout"
+import FormEditUser from '../../../components/admin/modules/user/FormEditUser'
 
 const EditUser = () => {
     return (

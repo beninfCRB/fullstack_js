@@ -1,13 +1,13 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer } from 'react-toastify'
-import Login from "./components/Login";
-import AddProduct from "./pages/AddProduct";
-import AddUser from "./pages/AddUser";
-import Dashboard from "./pages/Dashboard";
-import EditProduct from "./pages/EditProduct";
-import EditUser from "./pages/EditUser";
-import Product from "./pages/Product";
-import User from "./pages/User";
+import Login from "./components/admin/layout/Login";
+import AddProduct from "./pages/admin/product/AddProduct";
+import AddUser from "./pages/admin/user/AddUser";
+import Dashboard from "./pages/admin/Dashboard";
+import EditProduct from "./pages/admin/product/EditProduct";
+import EditUser from "./pages/admin/user/EditUser";
+import Product from "./pages/admin/product/Product";
+import User from "./pages/admin/user/User";
 import './App.css';
 
 function App() {

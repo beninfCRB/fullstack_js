@@ -1,6 +1,6 @@
 import React from 'react'
-import FormAddUser from '../components/FormAddUser'
-import Layout from '../components/Layout'
+import Layout from "../../../components/admin/layout/Layout"
+import FormAddUser from '../../../components/admin/modules/user/FormAddUser'
 
 const AddUser = () => {
     return (

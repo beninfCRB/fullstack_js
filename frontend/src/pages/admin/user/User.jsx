@@ -1,6 +1,6 @@
 import React from 'react'
-import Userlist from '../components/Userlist'
-import Layout from '../components/Layout'
+import Layout from "../../../components/admin/layout/Layout"
+import Userlist from '../../../components/admin/modules/user/Userlist'
 
 const User = () => {
     return (

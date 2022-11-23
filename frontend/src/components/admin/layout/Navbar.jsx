@@ -2,8 +2,8 @@ import React from 'react'
 import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../public/img/logo.png"
 import { toast } from 'react-toastify'
-import { useDispatch } from 'react-redux';
-import { logout } from '../features/authSlice.js';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../../features/authSlice.js';
 
 
 const Navbar = props => {
@@ -13,6 +13,8 @@ const Navbar = props => {
     const clear = () => {
         dispatch(logout({ navigate, toast }))
     }
+
+    const { user } = useSelector((state) => state.auth)
 
     return (
         <div>
@@ -45,13 +47,15 @@ const Navbar = props => {
                 </div>
 
                 <div id="navbarBasicExample" className="navbar-menu">
-
+                    <div className="navbar-item">
+                    </div>
                     <div className="navbar-end">
                         <div className="navbar-item">
                             <div className="buttons">
                                 <button onClick={clear} className="button is-light">
                                     Log out
                                 </button>
+                                {user.username}
                             </div>
                         </div>
                     </div>
