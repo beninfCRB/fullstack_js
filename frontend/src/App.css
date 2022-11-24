@@ -23,6 +23,10 @@
     background: #fff;
   }
 
+  .content-background{
+    background: rgba(0, 21, 41);
+  }
+
   .site-page-header {
     border: 1px solid rgb(235, 237, 240);
   }

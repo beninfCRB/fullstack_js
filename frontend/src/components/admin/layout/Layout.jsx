@@ -11,14 +11,15 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../../features/authSlice';
 import { useEffect } from 'react';
+import { update } from '../../../features/themeSlice';
 
 const { Header, Sider, Content, Footer } = Layout;
 
 
 export const MainLayout = ({ children }) => {
     const { user } = useSelector((state) => state.auth)
+    const {themeBackground} = useSelector(state=>state.theme)
     const [sw, setSw] = useState('dark');
-    const [themeContent, setThemeContent] = useState('has-background-dark has-text-white');
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -35,7 +36,7 @@ export const MainLayout = ({ children }) => {
 
     const changeTheme = (value) => {
         setSw(value ? 'dark' : 'light')
-        setThemeContent(value ? 'has-background-dark has-text-white' : 'site-layout-background')
+        dispatch(update({value}))
     };
 
     return (
@@ -61,7 +62,7 @@ export const MainLayout = ({ children }) => {
                         )}
                     />
                 </Sider>
-                <Layout className={themeContent}>
+                <Layout className={themeBackground}>
                     <Header
                         className={`site-layout-sub-header-background has-text-white`}
                         style={{ padding: 0 }}
@@ -90,7 +91,7 @@ export const MainLayout = ({ children }) => {
                             {children}
                         </div>
                     </Content>
-                    <Footer className={themeContent} style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+                    <Footer className={themeBackground} style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
                 </Layout>
             </Layout>
         </React.Fragment >
