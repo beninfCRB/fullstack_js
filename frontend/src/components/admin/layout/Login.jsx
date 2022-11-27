@@ -4,25 +4,18 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Form, Input } from 'antd';
-import { login } from '../../../features/authSlice.js';
-import { useEffect } from 'react';
+import { login } from 'features/authSlice';
 
 const Login = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { user } = useSelector((state) => state.auth)
+    const { isLoading } = useSelector((state) => state.auth)
 
     const handleSubmit = async (values) => {
         if (values) {
             dispatch(login({ values, navigate, toast }));
         }
     }
-
-    useEffect(() => {
-        if (user) {
-            window.history.forward()
-        }
-    })
 
     return (
         <section className="hero has-background-grey-light is-success is-fullheight is-fullwidth">
@@ -69,7 +62,7 @@ const Login = () => {
                                 </Form.Item>
 
                                 <Form.Item className='columns is-centered mb-4 mt-6 is-flex-mobile'>
-                                    <Button type="dashed" htmlType="submit" shape='round' className="login-form-button">
+                                    <Button loading={isLoading} type="dashed" htmlType="submit" shape='round' className="login-form-button">
                                         Log in
                                     </Button>
                                 </Form.Item>

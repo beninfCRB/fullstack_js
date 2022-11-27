@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../public/img/logo.png"
 import { toast } from 'react-toastify'
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../../features/authSlice.js';
+import { logout } from 'features/authSlice';
 
 
 const Navbar = props => {

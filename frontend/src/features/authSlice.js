@@ -10,6 +10,7 @@ const initialState = {
     isError: false,
     isSuccess: false,
     isLoading: false,
+    isLogout: false,
     token: null,
     exp: null
 }
@@ -22,7 +23,10 @@ export const login = createAsyncThunk('auth/login', async ({ values, navigate, t
         navigate('/dashboard')
         return response.data.Authorization
     } catch (error) {
-        toast.error("Username atau Password Salah")
+        if (error.response) {
+            toast.dismiss()
+            toast.error("Username atau Password Salah")
+        }
     }
 })
 
@@ -34,7 +38,10 @@ export const logout = createAsyncThunk('auth/logout', async ({ navigate, toast }
         navigate('/')
         return response.data
     } catch (error) {
-        toast.error("Username atau Password Salah")
+        if (error.response) {
+            toast.dismiss()
+            toast.error("Username atau Password Salah")
+        }
     }
 })
 
@@ -58,7 +65,7 @@ export const refreshToken = createAsyncThunk('auth/token', async () => {
         return response.data.Authorization
     } catch (error) {
         if (error.response) {
-            this.logout()
+            return Promise.reject(error.message)
         }
     }
 })
@@ -74,6 +81,9 @@ export const authSlice = createSlice({
         [login.pending]: (state, action) => {
             state.isError = false
             state.isLoading = true
+            if (!action.payload) {
+                state.isLoading = false
+            }
         },
         [login.fulfilled]: (state, action) => {
             state.isLoading = false

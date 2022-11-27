@@ -4,39 +4,40 @@ import {
     VideoCameraOutlined,
     LogoutOutlined,
 } from '@ant-design/icons';
-import { Button, Col, Layout, Menu, Row, Switch } from 'antd';
+import { Button, Col, Layout, Menu, PageHeader, Row, Switch } from 'antd';
 import { toast } from "react-toastify";
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../../../features/authSlice';
-import { useEffect } from 'react';
-import { update } from '../../../features/themeSlice';
+import { logout, refreshToken } from 'features/authSlice';
+import { update } from 'features/themeSlice';
+
+// import { PrivateRoute } from 'utils/PrivateRoutes'
+
 
 const { Header, Sider, Content, Footer } = Layout;
 
 
 export const MainLayout = ({ children }) => {
-    const { user } = useSelector((state) => state.auth)
-    const {themeBackground} = useSelector(state=>state.theme)
-    const [sw, setSw] = useState('dark');
+    const { user, isLoading } = useSelector((state) => state.auth)
+    const { themeBackground, themeContent } = useSelector(state => state.theme)
+    const [sw, setSw] = useState('light')
 
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+
 
     const clear = () => {
         dispatch(logout({ navigate, toast }));
     }
 
-    useEffect(() => {
-        if (!user) {
-            navigate("/")
-        }
-    })
+    useState(() => {
+        dispatch(refreshToken())
+    },)
 
     const changeTheme = (value) => {
         setSw(value ? 'dark' : 'light')
-        dispatch(update({value}))
+        dispatch(update({ value }))
     };
 
     return (
@@ -74,21 +75,33 @@ export const MainLayout = ({ children }) => {
                                 <Switch
                                     checked={sw === 'dark'}
                                     onChange={changeTheme}
-                                    checkedChildren="Dark"
-                                    unCheckedChildren="Light"
+                                    checkedChildren="Dark Mode"
+                                    unCheckedChildren="Light Mode"
                                 />
                             </Col>
                             <Col className='mr-2'>{user && user.username}</Col>
-                            <Col className='mr-2'>< Button onClick={clear} type="dashed" shape="round" icon={< LogoutOutlined />} size={'small'} /></Col>
+                            <Col className='mr-2'>< Button loading={isLoading} onClick={clear} type="dashed" shape="round" icon={< LogoutOutlined />} size={'small'} /></Col>
                         </Row>
                     </Header>
                     <Content
-                        style={{ margin: '24px 16px 0' }}
+                        style={{ margin: '24px 16px 0', color: 'white' }}
                     >
                         <div
                             style={{ padding: 24, minHeight: 360 }}
                         >
-                            {children}
+                            <PageHeader
+                                style={{ color: 'white' }}
+                                className={themeContent}
+                                ghost={false}
+                                onBack={() => window.history.back()}
+                                title="Dashboard"
+                            // extra={[
+                            //     <Button key="3">Operation</Button>,
+                            //     <Button key="2">Operation</Button>,
+                            // ]}
+                            >
+                                {children}
+                            </PageHeader>
                         </div>
                     </Content>
                     <Footer className={themeBackground} style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
