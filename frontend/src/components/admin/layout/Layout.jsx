@@ -20,7 +20,7 @@ const { Header, Sider, Content, Footer } = Layout;
 
 export const MainLayout = ({ children }) => {
     const { user, isLoading } = useSelector((state) => state.auth)
-    const { themeBackground, themeContent } = useSelector(state => state.theme)
+    const { themeBackground, themeContent, themeText } = useSelector(state => state.theme)
     const [sw, setSw] = useState('light')
 
     const navigate = useNavigate()
@@ -63,9 +63,9 @@ export const MainLayout = ({ children }) => {
                         )}
                     />
                 </Sider>
-                <Layout className={themeBackground}>
+                <Layout className={[themeBackground, 'has-text-dark']}>
                     <Header
-                        className={`site-layout-sub-header-background has-text-white`}
+                        className={[themeBackground === 'site-layout-background' ? `has-background-white has-text-black` : `site-layout-sub-header-background has-text-light`]}
                         style={{ padding: 0 }}
                     >
                         <Row
@@ -91,7 +91,7 @@ export const MainLayout = ({ children }) => {
                         >
                             <PageHeader
                                 style={{ color: 'white' }}
-                                className={themeContent}
+                                className={[themeText, themeContent]}
                                 ghost={false}
                                 onBack={() => window.history.back()}
                                 title="Dashboard"
