@@ -13,7 +13,7 @@ export const themeSlice = createSlice({
         reset: (state) => initialState,
         update: (state, action) => {
             state.themeBackground = action.payload.value ? 'has-background-dark has-text-light' : 'site-layout-background'
-            state.themeContent = action.payload.value ? 'has-background-black-ter has-text-light' : 'site-page-header-ghost-wrapper'
+            state.themeContent = action.payload.value ? 'has-background-grey-light' : 'site-page-header-ghost-wrapper'
             state.themeText = action.payload.value ? 'has-text-light' : 'has-text-black'
         }
     }

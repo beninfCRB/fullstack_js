@@ -12,15 +12,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout, refreshToken } from 'features/authSlice';
 import { update } from 'features/themeSlice';
 
-// import { PrivateRoute } from 'utils/PrivateRoutes'
-
 
 const { Header, Sider, Content, Footer } = Layout;
 
 
 export const MainLayout = ({ children }) => {
     const { user, isLoading } = useSelector((state) => state.auth)
-    const { themeBackground, themeContent, themeText } = useSelector(state => state.theme)
+    const { themeBackground, themeContent } = useSelector(state => state.theme)
     const [sw, setSw] = useState('light')
 
     const navigate = useNavigate()
@@ -84,14 +82,14 @@ export const MainLayout = ({ children }) => {
                         </Row>
                     </Header>
                     <Content
-                        style={{ margin: '24px 16px 0', color: 'white' }}
+                        className='has-text-light'
+                        style={{ margin: '24px 16px 0' }}
                     >
                         <div
                             style={{ padding: 24, minHeight: 360 }}
                         >
                             <PageHeader
-                                style={{ color: 'white' }}
-                                className={[themeText, themeContent]}
+                                className={themeContent}
                                 ghost={false}
                                 onBack={() => window.history.back()}
                                 title="Dashboard"

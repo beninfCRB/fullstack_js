@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, isRejected } from "@reduxjs/toolkit";
 import * as api from '../app/api.js'
 import jwt_decode from "jwt-decode";
 import axios from "axios";
@@ -12,7 +12,6 @@ const initialState = {
     isLoading: false,
     isLogout: false,
     token: null,
-    exp: null
 }
 
 export const login = createAsyncThunk('auth/login', async ({ values, navigate, toast }) => {
@@ -48,8 +47,8 @@ export const logout = createAsyncThunk('auth/logout', async ({ navigate, toast }
 
 axios.interceptors.request.use(async (config) => {
     const currentDate = new Date();
-    const { exp, token } = useSelector((state) => state.auth)
-    if (exp * 1000 < currentDate.getTime()) {
+    const { user, token } = useSelector((state) => state.auth)
+    if (user.exp * 1000 < currentDate.getTime()) {
         const response = token
         config.headers.Authorization = `Bearer ${response.data.Authorization}`
         return response.data.Authorization
@@ -81,7 +80,7 @@ export const authSlice = createSlice({
         [login.pending]: (state, action) => {
             state.isError = false
             state.isLoading = true
-            if (!action.payload) {
+            if (isRejected(login)) {
                 state.isLoading = false
             }
         },
@@ -90,7 +89,7 @@ export const authSlice = createSlice({
             state.isSuccess = true
             state.token = action.payload
             state.user = jwt_decode(action.payload)
-            state.exp = jwt_decode(action.payload).exp
+            // state.exp = jwt_decode(action.payload).exp
         },
         [login.rejected]: (state, action) => {
             state.isLoading = false
@@ -110,7 +109,7 @@ export const authSlice = createSlice({
             state.isSuccess = true
             state.token = action.payload
             state.user = jwt_decode(action.payload)
-            state.exp = jwt_decode(action.payload).exp
+            // state.exp = jwt_decode(action.payload).exp
         },
         [refreshToken.rejected]: (state, action) => initialState
     }

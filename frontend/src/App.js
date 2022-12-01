@@ -19,13 +19,13 @@ function App() {
         <ToastContainer />
         <Routes>
           <Route element={<PrivateRoutes />}>
-            <Route path="/dashboard" element={<Dashboard />} exact />
-            <Route path="/user" element={<User />} exact />
-            <Route path="/user/add" element={<AddUser />} exact />
-            <Route path="/user/edit/:id" element={<EditUser />} exact />
-            <Route path="/product" element={<Product />} exact />
-            <Route path="/product/add" element={<AddProduct />} exact />
-            <Route path="/product/edit/:id" element={<EditProduct exact />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/user" element={<User />} />
+            <Route path="/user/add" element={<AddUser />} />
+            <Route path="/user/edit/:id" element={<EditUser />} />
+            <Route path="/product" element={<Product />} />
+            <Route path="/product/add" element={<AddProduct />} />
+            <Route path="/product/edit/:id" element={<EditProduct />} />
           </Route>
           <Route path="/" element={<Login />} />
           <Route path="/*" element={<NotFound />} />

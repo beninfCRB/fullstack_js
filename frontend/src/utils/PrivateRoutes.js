@@ -9,8 +9,7 @@ export const PrivateRoutes = () => {
     const location = useLocation()
 
     return (
-        user ? <Outlet /> :
-            user && location.pathname === '' ? <Navigate to="/dashboard" /> : <Navigate to='/' />
+        user ? <Outlet /> : <Navigate replace to='/' state={{ from: location }} />
     )
 }
 
