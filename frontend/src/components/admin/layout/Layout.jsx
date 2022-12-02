@@ -18,8 +18,7 @@ const { Header, Sider, Content, Footer } = Layout;
 
 export const MainLayout = ({ children }) => {
     const { user, isLoading } = useSelector((state) => state.auth)
-    const { themeBackground, themeContent } = useSelector(state => state.theme)
-    const [sw, setSw] = useState('light')
+    const { themeBackground, themeContent, theme } = useSelector(state => state.theme)
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -34,7 +33,6 @@ export const MainLayout = ({ children }) => {
     },)
 
     const changeTheme = (value) => {
-        setSw(value ? 'dark' : 'light')
         dispatch(update({ value }))
     };
 
@@ -71,7 +69,7 @@ export const MainLayout = ({ children }) => {
                         >
                             <Col className='mr-2'>
                                 <Switch
-                                    checked={sw === 'dark'}
+                                    checked={theme === 'dark'}
                                     onChange={changeTheme}
                                     checkedChildren="Dark Mode"
                                     unCheckedChildren="Light Mode"

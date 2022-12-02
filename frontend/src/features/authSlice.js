@@ -1,8 +1,6 @@
 import { createSlice, createAsyncThunk, isRejected } from "@reduxjs/toolkit";
 import * as api from '../app/api.js'
 import jwt_decode from "jwt-decode";
-import axios from "axios";
-import { useSelector } from "react-redux";
 
 
 const initialState = {
@@ -42,20 +40,6 @@ export const logout = createAsyncThunk('auth/logout', async ({ navigate, toast }
             toast.error("Username atau Password Salah")
         }
     }
-})
-
-
-axios.interceptors.request.use(async (config) => {
-    const currentDate = new Date();
-    const { user, token } = useSelector((state) => state.auth)
-    if (user.exp * 1000 < currentDate.getTime()) {
-        const response = token
-        config.headers.Authorization = `Bearer ${response.data.Authorization}`
-        return response.data.Authorization
-    }
-    return config;
-}, (error) => {
-    return Promise.reject(error.message)
 })
 
 export const refreshToken = createAsyncThunk('auth/token', async () => {
