@@ -4,7 +4,7 @@ import {
     VideoCameraOutlined,
     LogoutOutlined,
 } from '@ant-design/icons';
-import { Button, Col, Layout, Menu, PageHeader, Row, Switch } from 'antd';
+import { Button, Col, Image, Layout, Menu, PageHeader, Row, Switch } from 'antd';
 import { toast } from "react-toastify";
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -64,6 +64,7 @@ export const MainLayout = ({ children }) => {
                         className={[themeBackground === 'site-layout-background' ? `has-background-white has-text-black` : `site-layout-sub-header-background has-text-light`]}
                         style={{ padding: 0 }}
                     >
+                        <Image src='' />
                         <Row
                             className='is-pulled-right is-flex-mobile'
                         >
